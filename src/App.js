@@ -22,6 +22,7 @@ import {
 import Cards from 'react-credit-cards';
 import Forms from './Components/LoginSignUp';
 import { useCookies } from 'react-cookie';
+import '../src/styles-compiled.css'
 
 export default function App() {
   const [justifyActive, setJustifyActive] = useState('tab1');
