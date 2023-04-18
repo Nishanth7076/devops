@@ -19,7 +19,7 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from 'mdb-react-ui-kit';
-import Cards from 'react-credit-cards-2';
+import Cards from 'react-credit-cards';
 import 'react-credit-cards/dist/es/styles-compiled.css';
 import Forms from './Components/LoginSignUp';
 import { useCookies } from 'react-cookie';
