@@ -166,7 +166,7 @@ function Forms({doLogin}) {
       <div className="text-center">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
                 style={{width: '185px'}} alt="logo" />
-              <h4 className="mt-1 mb-5 pb-1">Making payments more secure and faster</h4>
+              <h4 className="mt-1 mb-5 pb-1">NS Bank - Making payments more secure and faster</h4>
             </div>
       <MDBTabs pills justify className='mb-3 d-flex flex-row justify-content-between'>
         <MDBTabsItem>
