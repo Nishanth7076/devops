@@ -3,16 +3,22 @@ version: 0.2
 phases:
   install:
     runtime-versions:
+      python: 3.10
       nodejs: 16
    
     commands:
         # install npm
-        - npm install --force
+      - pip install pylint
+      - pip install pylint-exit
+      - pip install bandit
+      - pylint serverfunctions --max-line-length=400 || pylint-exit $?
+      - bandit -r serverfunctions -ll --exit-zero
        
   build:
     commands:
-        # run build script
-        - npm run build
+      # run build script
+      - echo "Zipping deployment package..."
+      - zip -r9 deployment_package.zip serverfunctions
      
 artifacts:
   # include all files required to run application
