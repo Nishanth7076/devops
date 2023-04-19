@@ -47,6 +47,18 @@ export default function App() {
   }
 ]
 
+const passwordChange = {
+  email:"",
+  old: "",
+  new: "",
+  renew: ""
+};
+const [passwordState, setPasswordState] = useState(passwordChange);
+
+async function setPassword(key, value) {
+  setPasswordState({ ...passwordState, [key]: value })
+}
+
 useEffect(()=>{
   if(cookies.isLogIn === 'true'){
     var data = {
@@ -54,6 +66,7 @@ useEffect(()=>{
       password : cookies.authkey
     }
     login(data)
+    setPassword('email', cookies.email)
   }    
 }, [cookies.isLogIn])
 
@@ -214,6 +227,38 @@ const [statement, setStatement] =useState(transactions)
     })
   }
 
+  const changePassword = ()=>{
+    const email = userState.email
+    setPassword('email', email);
+    if(passwordState.new != passwordState.renew){
+      alert("Passwords doesn't match, Please enter identical passwords");
+      return;
+    }
+    if(passwordState.new.length < 8){
+      alert("Password should be minimum 8 characters")
+      return;
+    }
+    setPassword('email', email);
+    console.log(passwordState)
+    fetch('https://212utffvc3.execute-api.us-west-2.amazonaws.com/Prod/changepassword', {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(passwordState)
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.isChangeSuccessful){
+          alert("Password Updated")
+        }
+        else{
+          alert("There is some issue while updating password, please try again")
+        }
+    })
+  }
+
   return (
 
     <>
@@ -258,10 +303,10 @@ const [statement, setStatement] =useState(transactions)
               <MDBBtn className='btn-close' color='none' onClick={togglePasswordModal}></MDBBtn>
             </MDBModalHeader>
             <MDBModalBody className='py-4 justify-content-center'>
-            <MDBInput label='Old Password' type='text' onChange={(e)=>{checkDeposit(e)}} /><br/>
-            <MDBInput label='New Password' type='text' onChange={(e)=>{checkDeposit(e)}} /><br/>
-            <MDBInput label='Re-enter New Password' type='text' onChange={(e)=>{checkDeposit(e)}} /><br/>
-            <MDBBtn rounded size="lg">
+            <MDBInput label='Old Password' type='text' onChange={(e)=>{setPassword('old', e.target.value)}} /><br/>
+            <MDBInput label='New Password' type='text' onChange={(e)=>{setPassword('new', e.target.value)}} /><br/>
+            <MDBInput label='Re-enter New Password' type='text' onChange={(e)=>{setPassword('renew', e.target.value)}} /><br/>
+            <MDBBtn rounded onClick={(e)=> changePassword()} size="lg">
                  Confirm
                 </MDBBtn>
             </MDBModalBody>

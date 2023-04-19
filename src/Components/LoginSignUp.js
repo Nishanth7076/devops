@@ -77,7 +77,10 @@ function Forms({doLogin}) {
     body: JSON.stringify(signupState)
     })
     .then(response => response.json())
-    .then(response => alert(response))
+    .then(response => {
+      toggleSignupModal();
+      setJustifyActive('tab1')
+    })
   }
 
   function forgotPassword(){
